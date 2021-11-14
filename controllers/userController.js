@@ -3,6 +3,11 @@ const db = require('../models')
 const User = db.User
 
 const userController = {
+  getUser: (req, res) => {
+    req.flash('error_messages', 'Profile 功能尚未開放')
+    res.redirect('back')
+  },
+
   signUpPage: (req, res) => {
     return res.render('signup')
   },
