@@ -37,9 +37,53 @@
             Edit
           </a>
         </button>
-        <form action="/admin/restaurants/{{this.id}}?_method=DELETE" method="POST" style="display: inline;">
-          <button type="submit" class="btn btn-link">Delete</button>
-        </form>
+
+        <!-- Button to Open the Modal -->
+        <button type="button" class="btn btn-link" data-toggle="modal" data-target="#DeleteConfirmModal{{this.id}}">
+          Delete
+        </button>
+
+        <!-- The Modal -->
+        <div class="modal fade" id="DeleteConfirmModal{{this.id}}">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+              <!-- Modal Header -->
+              <div class="modal-header">
+                <h4 class="modal-title">！！！注意！！！</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+              </div>
+
+              <div class="modal-body">
+                你將刪除下列餐廳資料:
+                <hr>
+                <h1>{{this.name}}</h1>
+                <img class="img-responsive center-block" src="{{this.image}}" style="width: 250px;margin-bottom: 25px;">
+                <br>
+                <div class="well">
+                  <ul class="list-unstyled">
+                    <li><strong>Opening Hour:</strong> {{this.opening_hours}}</li>
+                    <li><strong>Tel:</strong> {{this.tel}}</li>
+                    <li><strong>Address:</strong> {{this.address}}</li>
+                  </ul>
+                </div>
+                <div class="col-md-8">
+                  <p>{{this.description}}</p>
+                </div>
+                <hr>
+                此動作無法復原，是否確認刪除？
+              </div>
+
+              <div class="modal-footer">
+                <form action="/admin/restaurants/{{this.id}}?_method=DELETE" method="POST" style="display: inline;">
+                  <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+              </div>
+
+            </div>
+          </div>
+        </div>
       </td>
     </tr>
     {{/each}}
