@@ -5,13 +5,14 @@
     {{/if}}
     <div class="form-group">
       <label for="name">Name</label>
-      <input type="text" class="form-control" name="name" id="name" placeholder="Enter name"
+      <input type="text" class="form-control" name="name" id="name" placeholder="Enter name" maxlength="25"
         value="{{restaurant.name}}">
     </div>
 
     <div class="form-group">
       <label for="tel">Tel</label>
-      <input type="text" class="form-control" name="tel" id="tel" placeholder="Enter tel" value="{{restaurant.tel}}">
+      <input type="tel" class="form-control" name="tel" id="tel" placeholder="Enter tel" maxlength="19"
+        pattern="^[\+\(\)\-0-9]*$" value="{{restaurant.tel}}">
     </div>
 
     <div class="form-group">
@@ -33,7 +34,8 @@
 
     <div class="form-group">
       <label for="description">Description</label>
-      <textarea class="form-control" id="description" name="description" rows="3">{{restaurant.description}}</textarea>
+      <textarea class="form-control" id="description" name="description" rows="5"
+        maxlength="999">{{restaurant.description}}</textarea>
     </div>
 
     <button type="submit" class="btn btn-primary">Submit</button>
