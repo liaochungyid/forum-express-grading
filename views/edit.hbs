@@ -1,0 +1,21 @@
+<form action="/users/{{user.id}}?_method=PUT" method="POST" enctype="multipart/form-data">
+  <div class="form-group">
+    <label for="name">Name</label>
+    <input type="text" class="form-control" name="name" id="name" placeholder="Enter name" maxlength="25"
+      value="{{user.name}}">
+  </div>
+
+  <div class="form-label-group">
+    <label for="inputEmail">Email</label>
+    <input type="email" name="email" class="form-control" placeholder="Email" value="{{user.email}}">
+  </div>
+
+  <div class="form-group">
+    <label for="image">Image</label>
+    <input type="file" class="form-control-file" id="image" name="image" value="{{user.image}}">
+  </div>
+
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+</br>
+<a href="javascript:history.back()">回上一頁</a>
