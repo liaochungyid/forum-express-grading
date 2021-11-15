@@ -161,9 +161,9 @@ const adminController = {
         if (user.name === 'admin') {
           req.flash('error_messages', '禁止變更管理者權限')
           res.redirect('back')
-        } else if (req.user.id === Number(req.params.id)) {
-          req.flash('error_messages', '無法變更自己的權限')
-          return res.redirect('back')
+        // } else if (req.user.id === Number(req.params.id)) {
+        //   req.flash('error_messages', '無法變更自己的權限')
+        //   return res.redirect('back')
         } else {
           user.update({
             isAdmin: !user.isAdmin
