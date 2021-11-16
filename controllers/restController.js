@@ -60,7 +60,8 @@ const restController = {
         Category,
         { model: Comment, include: [User] }
       ]
-    }).then(restaurant => {
+    }).then((restaurant) => {
+      restaurant.update({ viewCounts: restaurant.viewCounts + 1 })
       return res.render('restaurant', {
         restaurant: restaurant.toJSON()
       })
