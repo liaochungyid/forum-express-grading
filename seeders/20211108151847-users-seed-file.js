@@ -9,7 +9,7 @@ module.exports = {
       password: bcrypt.hashSync('12345678', bcrypt.genSaltSync(10), null),
       isAdmin: true,
       name: 'admin',
-      image: `https://loremflickr.com/320/240/people,headshot/?random=${Math.random() * 100}`,
+      image: null,
       createdAt: new Date(),
       updatedAt: new Date()
     }, {
@@ -18,7 +18,7 @@ module.exports = {
       password: bcrypt.hashSync('12345678', bcrypt.genSaltSync(10), null),
       isAdmin: false,
       name: 'user1',
-      image: `https://loremflickr.com/320/240/people,headshot/?random=${Math.random() * 100}`,
+      image: null,
       createdAt: new Date(),
       updatedAt: new Date()
     }, {
@@ -27,7 +27,7 @@ module.exports = {
       password: bcrypt.hashSync('12345678', bcrypt.genSaltSync(10), null),
       isAdmin: false,
       name: 'user2',
-      image: `https://loremflickr.com/320/240/people,headshot/?random=${Math.random() * 100}`,
+      image: null,
       createdAt: new Date(),
       updatedAt: new Date()
     }], {})

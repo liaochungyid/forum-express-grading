@@ -1,3 +1,5 @@
+const helpers = require('../_helpers')
+
 const fs = require('fs')
 const imgur = require('imgur-node-api')
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
@@ -156,14 +158,16 @@ const adminController = {
   },
 
   toggleAdmin: (req, res) => {
+    // if (helpers.getUser(req).id === Number(req.params.id)) {
+    //   req.flash('error_messages', '無法變更自己的權限')
+    //   return res.redirect('back')
+    // }
+
     return User.findByPk(req.params.id)
       .then((user) => {
         if (user.name === 'admin') {
           req.flash('error_messages', '禁止變更管理者權限')
           res.redirect('back')
-        // } else if (req.user.id === Number(req.params.id)) {
-        //   req.flash('error_messages', '無法變更自己的權限')
-        //   return res.redirect('back')
         } else {
           user.update({
             isAdmin: !user.isAdmin

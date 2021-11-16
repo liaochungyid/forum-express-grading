@@ -1,3 +1,5 @@
+const helpers = require('../_helpers')
+
 const fs = require('fs')
 const imgur = require('imgur-node-api')
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
@@ -10,11 +12,16 @@ const Restaurant = db.Restaurant
 
 const userController = {
   getUser: (req, res) => {
-    return User.findByPk(req.params.id, {
+    User.findByPk(req.params.id, {
       raw: true,
       nest: true
     }).then((user) => {
-      Comment.findAll({
+      if (!user) {
+        req.flash('無此用戶！')
+        return req.redirect('back')
+      }
+
+      return Comment.findAll({
         where: { UserId: user.id },
         include: [Restaurant],
         raw: true,
@@ -23,17 +30,17 @@ const userController = {
         res.render('profile', {
           user,
           comments,
-          count: comments.length
+          count: comments.length ? comments.length : 0
         })
       })
     })
   },
 
   editUser: (req, res) => {
-    // if (req.user.id !== Number(req.params.id)) {
-    //   req.flash('warning_mssage', '不可編輯他人資料')
-    //   return res.redirect(`/users/${req.user.id}`)
-    // }
+    if (helpers.getUser(req).id !== Number(req.params.id)) {
+      req.flash('warning_mssage', '不可編輯他人資料')
+      return res.redirect(`/users/${helpers.getUser(req).id}`)
+    }
 
     return User.findByPk(req.params.id, { raw: true, nest: true })
       .then((user) => {
@@ -42,10 +49,10 @@ const userController = {
   },
 
   putUser: (req, res) => {
-    // if (req.user.id !== Number(req.params.id)) {
-    //   req.flash('warning_mssage', '不可編輯他人資料')
-    //   return res.redirect(`/users/${req.user.id}`)
-    // }
+    if (helpers.getUser(req).id !== Number(req.params.id)) {
+      req.flash('warning_mssage', '不可編輯他人資料')
+      return res.redirect(`/users/${helpers.getUser(req).id}`)
+    }
     if (!req.body.name) {
       console.log(req.body)
       req.flash('error_messages', "name didn't exist")
@@ -64,8 +71,8 @@ const userController = {
               image: file ? img.data.link : user.image
             })
               .then((user) => {
-                req.flash('success_messages', 'restaurant was successfully to update')
-                res.redirect('/admin/restaurants')
+                req.flash('success_messages', '使用者資料編輯成功')
+                res.redirect(`/users/${helpers.getUser(req).id}`)
               })
           })
       })

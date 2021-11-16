@@ -1,6 +1,10 @@
 <div class="row">
   <div class="col-md-4">
-    <img class="img-responsive center-block" src="{{user.image}}" style="width: 250px;margin-bottom: 25px;">
+    {{#if user.image}}
+    <img class="img-responsive center-block" src="{{user.image}}" style="width: 250x;margin-bottom: 25px;">
+    {{else}}
+    <div class=" center-block" style="width: 250px; height:250px;margin-bottom: 25px;background-color:darkgrey"></div>
+    {{/if}}
   </div>
   <div class="col-md-8">
     <h1>{{user.name}}</h1>
@@ -15,16 +19,25 @@
     <strong>{{count}}</strong> 已評論餐廳
   </div>
   <div class="row">
+    {{#ifCond 0 count}}
+    <div class="m-auto p-3">
+      <h5>沒有評論</h5>
+    </div>
+    {{/ifCond}}
     {{#each comments}}
-    <div class="border m-3 p-3">
-      <h5>{{this.Restaurant.name}}</h5>
-      <img class=" img-responsive center-block" src="{{this.Restaurant.image}}"
-        style="width: 100px;margin-bottom: 1em; display: block">
-      <a href="/restaurants/{{this.Restaurant.id}}" class="btn btn-info">查看</a>
+    <div class="container" style="width:200px;">
+      <a href="/restaurants/{{this.Restaurant.id}}">
+        <div class="border my-3 mx-0 text-center">
+          <h5>{{this.Restaurant.name}}</h5>
+          <img class=" img-responsive center-block" src="{{this.Restaurant.image}}"
+            style="width: 100%;margin-bottom: 1em; display: block">
+        </div>
+      </a>
     </div>
     <br />
     {{/each}}
   </div>
+</div>
 
 </div>
 <br />
