@@ -1,3 +1,5 @@
+const helpers = require('../_helpers')
+
 const db = require('../models')
 const Restaurant = db.Restaurant
 const Category = db.Category
@@ -83,6 +85,21 @@ const restController = {
       return res.render('feeds', {
         restaurants,
         comments
+      })
+    })
+  },
+  getDashBoard: (req, res) => {
+    return Promise.all([
+      Comment.count({ where: { RestaurantId: req.params.id } }),
+      Restaurant.findByPk(req.params.id, {
+        raw: true,
+        nest: true,
+        include: [Category]
+      })
+    ]).then(([CommentsCount, restaurant]) => {
+      return res.render('dashboard', {
+        CommentsCount,
+        restaurant
       })
     })
   }
