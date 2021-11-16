@@ -12,26 +12,27 @@ const Restaurant = db.Restaurant
 
 const userController = {
   getUser: (req, res) => {
-    User.findByPk(req.params.id, {
-      raw: true,
-      nest: true
-    }).then((user) => {
+    return Promise.all([
+      User.findByPk(req.params.id, {
+        raw: true,
+        nest: true
+      }),
+      Comment.findAll({
+        where: { UserId: req.params.id },
+        include: [Restaurant],
+        raw: true,
+        nest: true
+      })
+    ]).then(([user, comments]) => {
       if (!user) {
         req.flash('無此用戶！')
         return req.redirect('back')
       }
 
-      return Comment.findAll({
-        where: { UserId: user.id },
-        include: [Restaurant],
-        raw: true,
-        nest: true
-      }).then((comments) => {
-        res.render('profile', {
-          user,
-          comments,
-          count: comments.length ? comments.length : 0
-        })
+      return res.render('profile', {
+        user,
+        comments,
+        count: comments.length ? comments.length : 0
       })
     })
   },
