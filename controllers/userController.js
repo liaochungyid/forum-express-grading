@@ -9,6 +9,7 @@ const { getRestaurant } = require('./restController')
 const User = db.User
 const Comment = db.Comment
 const Restaurant = db.Restaurant
+const Favorite = db.Favorite
 
 const userController = {
   getUser: (req, res) => {
@@ -36,7 +37,6 @@ const userController = {
       })
     })
   },
-
   editUser: (req, res) => {
     if (helpers.getUser(req).id !== Number(req.params.id)) {
       req.flash('warning_mssage', '不可編輯他人資料')
@@ -48,7 +48,6 @@ const userController = {
         res.render('edit', { user })
       })
   },
-
   putUser: (req, res) => {
     if (helpers.getUser(req).id !== Number(req.params.id)) {
       req.flash('warning_mssage', '不可編輯他人資料')
@@ -91,11 +90,9 @@ const userController = {
         })
     }
   },
-
   signUpPage: (req, res) => {
     return res.render('signup')
   },
-
   signUp: (req, res) => {
     // confirm password
     if (req.body.passwordCheck !== req.body.password) {
@@ -120,20 +117,40 @@ const userController = {
       })
     }
   },
-
   signInPage: (req, res) => {
     return res.render('signin')
   },
-
   signIn: (req, res) => {
     req.flash('success_messages', '成功登入！')
     res.redirect('/restaurants')
   },
-
   logout: (req, res) => {
     req.flash('success_messages', '登出成功！')
     req.logout()
     res.redirect('/signin')
+  },
+  addFavorite: (req, res) => {
+    return Favorite.create({
+      UserId: helpers.getUser(req).id,
+      RestaurantId: req.params.restaurantId
+    })
+      .then((restaurant) => {
+        return res.redirect('back')
+      })
+  },
+  removeFavorite: (req, res) => {
+    return Favorite.findOne({
+      where: {
+        UserId: helpers.getUser(req).id,
+        RestaurantId: req.params.restaurantId
+      }
+    })
+      .then((favorite) => {
+        favorite.destroy()
+          .then((restaurant) => {
+            return res.redirect('back')
+          })
+      })
   }
 }
 
