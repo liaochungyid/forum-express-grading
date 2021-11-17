@@ -65,7 +65,16 @@ const restController = {
         { model: User, as: 'LikedUsers' }
       ]
     }).then((restaurant) => {
-      restaurant.update({ viewCounts: restaurant.viewCounts + 1 })
+      if (req.session.views) {
+        if (!req.session.views.includes(req.params.id)) {
+          req.session.views.push(req.params.id)
+          restaurant.update({ viewCounts: restaurant.viewCounts + 1 })
+        }
+      } else {
+        req.session.views = [req.params.id]
+        restaurant.update({ viewCounts: restaurant.viewCounts + 1 })
+      }
+
       return res.render('restaurant', {
         restaurant: restaurant.toJSON(),
         isFavorited: restaurant.FavoritedUsers.map(d => d.id).includes(helpers.getUser(req).id),

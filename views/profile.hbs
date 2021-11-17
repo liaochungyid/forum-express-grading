@@ -1,3 +1,23 @@
+<style>
+  @media (min-width: 425px) {
+    .card-columns {
+      column-count: 2;
+    }
+  }
+
+  @media (min-width: 576px) {
+    .card-columns {
+      column-count: 3;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .card-columns {
+      column-count: 4;
+    }
+  }
+</style>
+
 <div class="row">
   <div class="col-md-4">
     {{#if user.image}}
@@ -18,27 +38,21 @@
   <div class="card-header">
     <strong>{{count}}</strong> 已評論餐廳
   </div>
-  <div class="row">
+  <div class="card-columns">
     {{#ifCond 0 count}}
-    <div class="m-auto p-3">
-      <h5>沒有評論</h5>
-    </div>
+    <h5 class="card-title">沒有評論</h5>
     {{/ifCond}}
     {{#each comments}}
-    <div class="container" style="width:200px;">
+    <div class="card border rounded" style="box-sizing: border-box;">
       <a href="/restaurants/{{this.Restaurant.id}}">
-        <div class="border my-3 mx-0 text-center">
-          <h5>{{this.Restaurant.name}}</h5>
-          <img class=" img-responsive center-block" src="{{this.Restaurant.image}}"
-            style="width: 100%;margin-bottom: 1em; display: block">
+        <img class="card-img-top p-1" src="{{this.Restaurant.image}}">
+        <div class="card-body">
+          <h5 class="card-title">{{this.Restaurant.name}}</h5>
         </div>
       </a>
     </div>
-    <br />
     {{/each}}
   </div>
 </div>
-
-</div>
 <br />
-<a href="javascript:history.back()">回上一頁</a>
+<a class="d-block text-center" href="javascript:history.back()">回上一頁</a>
