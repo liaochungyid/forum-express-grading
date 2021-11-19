@@ -142,18 +142,14 @@ const userController = {
       })
   },
   removeFavorite: (req, res) => {
-    return Favorite.findOne({
+    return Favorite.destroy({
       where: {
-        UserId: helpers.getUser(req).id,
+        userId: helpers.getUser(req).id,
         RestaurantId: req.params.restaurantId
       }
+    }).then((favorite) => {
+      return res.redirect('back')
     })
-      .then((favorite) => {
-        favorite.destroy()
-          .then((restaurant) => {
-            return res.redirect('back')
-          })
-      })
   },
   addLike: (req, res) => {
     return Like.create({
@@ -180,7 +176,7 @@ const userController = {
     }).then((users) => {
       users = users.map((user) => ({
         ...user.dataValues,
-        FollowerCount: user.Followers ? user.Followers.length : 0,
+        FollowerCount: user.Followers.length,
         isFollowed: helpers.getUser(req).Followings.map(d => d.id).includes(user.id)
       }))
 
