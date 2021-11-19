@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Favorite.init({
-    UserId: DataTypes.INTEGER,
+    userId: DataTypes.INTEGER,
     RestaurantId: DataTypes.INTEGER
   }, {
     sequelize,
