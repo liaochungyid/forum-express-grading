@@ -6,6 +6,7 @@ const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
 const bcrypt = require('bcryptjs')
 const db = require('../models')
 const { getRestaurant } = require('./restController')
+const user = require('../models/user')
 const User = db.User
 const Comment = db.Comment
 const Restaurant = db.Restaurant
@@ -170,6 +171,21 @@ const userController = {
       }
     }).then((deletedLike) => {
       return res.redirect('back')
+    })
+  },
+  getTopUser: (req, res) => {
+    return User.findAll({
+      include: [{ model: User, as: 'Followers' }]
+    }).then((users) => {
+      users = users.map((user) => ({
+        ...user.dataValues,
+        FollowerCount: user.Followers ? user.Followers.length : 0,
+        isFollowed: helpers.getUser(req).Followings.map(d => d.id).includes(user.id)
+      }))
+
+      users = users.sort((a, b) => b.FollowerCount - a.FollowerCount)
+
+      return res.render('topUser', { users })
     })
   }
 }
