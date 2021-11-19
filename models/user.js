@@ -1,6 +1,6 @@
 'use strict';
 const {
-  Model
+  Model, UnknownConstraintError
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
@@ -15,6 +15,16 @@ module.exports = (sequelize, DataTypes) => {
         through: models.Like,
         foreignKey: 'UserId',
         as: 'LikedRestaurants'
+      })
+      User.belongsToMany(User, {
+        through: models.Followship,
+        foreignKey: 'followingId',
+        as: 'Followers'
+      })
+      User.belongsToMany(User, {
+        through: models.Followship,
+        foreignKey: 'followerId',
+        as: 'Followings'
       })
     }
   };
