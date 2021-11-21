@@ -34,24 +34,94 @@
   </div>
 </div>
 <br />
-<div class="card">
-  <div class="card-header">
-    <strong>{{count}}</strong> 已評論餐廳
-  </div>
-  <div class="card-columns">
-    {{#ifCond 0 count}}
-    <h5 class="card-title">沒有評論</h5>
-    {{/ifCond}}
-    {{#each comments}}
-    <div class="card border rounded" style="box-sizing: border-box;">
-      <a href="/restaurants/{{this.Restaurant.id}}">
-        <img class="card-img-top p-1" src="{{this.Restaurant.image}}">
-        <div class="card-body">
-          <h5 class="card-title">{{this.Restaurant.name}}</h5>
+
+<div class="row">
+  <div class="col-4">
+    <div class="card text-center">
+      <div class="card-header">
+        <strong>{{followingsCount}}</strong> followings(追蹤者)
+      </div>
+      <div class="card-columns">
+        {{#ifCond 0 followingsCount}}
+        <h5 class="card-title">沒有followings</h5>
+        {{/ifCond}}
+        {{#each user.Followings}}
+        <div class="card border rounded" style="box-sizing: border-box;">
+          <a href="/users/{{this.id}}">
+            <img class="card-img-top p-1" src="{{this.image}}">
+            <div class="card-body">
+              <p class="card-text">{{this.name}}</p>
+            </div>
+          </a>
         </div>
-      </a>
+        {{/each}}
+      </div>
     </div>
-    {{/each}}
+    <br />
+    <div class="card text-center">
+      <div class="card-header">
+        <strong>{{followersCount}}</strong> followers(追蹤者)
+      </div>
+      <div class="card-columns">
+        {{#ifCond 0 followersCount}}
+        <h5 class="card-title">沒有followers</h5>
+        {{/ifCond}}
+        {{#each user.Followers}}
+        <div class="card border rounded" style="box-sizing: border-box;">
+          <a href="/users/{{this.id}}">
+            <img class="card-img-top p-1" src="{{this.image}}">
+            <div class="card-body">
+              <p class="card-text">{{this.name}}</p>
+            </div>
+          </a>
+        </div>
+        {{/each}}
+      </div>
+    </div>
+  </div>
+
+  <div class="col-8">
+    <div class="card text-center">
+      <div class="card-header">
+        <strong>{{commentsCount}}</strong> 已評論餐廳
+      </div>
+      <div class="card-columns">
+        {{#ifCond 0 commentsCount}}
+        <h5 class="card-title">沒有評論</h5>
+        {{/ifCond}}
+        {{#each comments}}
+        <div class="card border rounded" style="box-sizing: border-box;">
+          <a href="/restaurants/{{this.Restaurant.id}}">
+            <img class="card-img-top p-1" src="{{this.Restaurant.image}}">
+            <div class="card-body p-5">
+              <h5 class="card-title">{{this.Restaurant.name}}</h5>
+            </div>
+          </a>
+        </div>
+        {{/each}}
+      </div>
+    </div>
+    <br />
+    <div class="card text-center">
+      <div class="card-header">
+        <strong>{{FavRestCount}}</strong> 已收藏餐廳
+      </div>
+      <div class="card-columns">
+        {{#ifCond 0 FavRestCount}}
+        <h5 class="card-title">沒有收藏餐廳</h5>
+        {{/ifCond}}
+        {{#each user.FavoritedRestaurants}}
+        <div class="card border rounded" style="box-sizing: border-box;">
+          <a href="/restaurants/{{this.id}}">
+            <img class="card-img-top p-1" src="{{this.image}}">
+            <div class="card-body">
+              <h5 class="card-title">{{this.name}}</h5>
+            </div>
+          </a>
+        </div>
+        {{/each}}
+      </div>
+    </div>
   </div>
 </div>
 <br />
