@@ -18,8 +18,11 @@ const userController = {
   getUser: (req, res) => {
     return Promise.all([
       User.findByPk(req.params.id, {
-        raw: true,
-        nest: true
+        include: [
+          { model: User, as: 'Followers' },
+          { model: User, as: 'Followings' },
+          { model: Restaurant, as: 'FavoritedRestaurants' }
+        ]
       }),
       Comment.findAll({
         where: { UserId: req.params.id },
@@ -34,9 +37,12 @@ const userController = {
       }
 
       return res.render('profile', {
-        user,
+        user: user.toJSON(),
         comments,
-        count: comments.length ? comments.length : 0
+        commentsCount: comments.length ? comments.length : 0,
+        followingsCount: user.Followings.length ? user.Followings.length : 0,
+        followersCount: user.Followers.length ? user.Followers.length : 0,
+        FavRestCount: user.FavoritedRestaurants.length ? user.FavoritedRestaurants.length : 0
       })
     })
   },
