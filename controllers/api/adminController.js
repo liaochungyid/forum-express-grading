@@ -6,8 +6,13 @@ const adminService = require('../../services/adminService')
 
 const adminController = {
   getRestaurants: (req, res) => {
-    return adminService.getRestaurants(req, res, (data) => {
+    adminService.getRestaurants(req, res, (data) => {
       res.json(data)
+    })
+  },
+  getRestaurant: (req, res) => {
+    adminService.getRestaurant(req, res, (data) => {
+      return res.json(data)
     })
   }
 }
