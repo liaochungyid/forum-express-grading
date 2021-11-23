@@ -19,6 +19,18 @@ const categoryController = {
         cb({ categories: categories })
       }
     })
+  },
+  postCategory: (req, res, cb) => {
+    if (!req.body.name) {
+      return cb({ status: 'error', message: 'name didn\'t exist' })
+    } else {
+      return Category.create({
+        name: req.body.name
+      })
+        .then((category) => {
+          return cb({ status: 'success', message: '' })
+        })
+    }
   }
 }
 module.exports = categoryController
