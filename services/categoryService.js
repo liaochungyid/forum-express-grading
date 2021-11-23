@@ -31,6 +31,19 @@ const categoryController = {
           return cb({ status: 'success', message: '' })
         })
     }
+  },
+  putCategory: (req, res, cb) => {
+    if (!req.body.name) {
+      return cb({ status: 'error', message: 'name didn\'t exist' })
+    } else {
+      return Category.findByPk(req.params.id)
+        .then((category) => {
+          category.update(req.body)
+            .then((category) => {
+              return cb({ status: 'success', message: '' })
+            })
+        })
+    }
   }
 }
 module.exports = categoryController
