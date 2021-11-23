@@ -5,7 +5,7 @@ module.exports = {
     await queryInterface.addColumn('Restaurants', 'viewCounts', {
       type: Sequelize.INTEGER,
       allowNull: false,
-      default: 0
+      defaultValue: 0
     })
   },
 
