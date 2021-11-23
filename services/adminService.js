@@ -61,6 +61,48 @@ const adminService = {
       cb({ restaurant: restaurant })
     })
   },
+  putRestaurant: (req, res, cb) => {
+    if (!req.body.name) {
+      return cb({ stauts: 'error', message: "name didn't exit" })
+    }
+
+    const { file } = req
+    if (file) {
+      imgur.setClientID(IMGUR_CLIENT_ID);
+      imgur.upload(file.path, (err, img) => {
+        return Restaurant.findByPk(req.params.id)
+          .then((restaurant) => {
+            restaurant.update({
+              name: req.body.name,
+              tel: req.body.tel,
+              address: req.body.address,
+              opening_hours: req.body.opening_hours,
+              description: req.body.description,
+              image: file ? img.data.link : restaurant.image,
+              CategoryId: req.body.categoryId
+            })
+              .then((restaurant) => {
+                return cb({ stauts: 'success', message: 'restaurant was successfully to update' })
+              })
+          })
+      })
+    } else {
+      return Restaurant.findByPk(req.params.id)
+        .then((restaurant) => {
+          restaurant.update({
+            name: req.body.name,
+            tel: req.body.tel,
+            address: req.body.address,
+            opening_hours: req.body.opening_hours,
+            description: req.body.description,
+            image: restaurant.image,
+            CategoryId: req.body.categoryId
+          }).then((restaurant) => {
+            return cb({ stauts: 'success', message: 'restaurant was successfully to update' })
+          })
+        })
+    }
+  },
   deleteRestaurant: (req, res, cb) => {
     return Restaurant.findByPk(req.params.id)
       .then((restaurant) => {
