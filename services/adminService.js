@@ -18,6 +18,14 @@ const adminService = {
       cb({ restaurants: restaurants })
     })
   },
+  createRestaurant: (req, res, cb) => {
+    Category.findAll({
+      raw: true,
+      nest: true
+    }).then((categories) => {
+      cb({ categories })
+    })
+  },
   postRestaurant: (req, res, cb) => {
     if (!req.body.name) {
       return cb({ stauts: 'error', message: "name didn't exit" })
