@@ -134,6 +134,11 @@ const adminService = {
             cb({ status: 'success', message: '' })
           })
       })
+  },
+  getUsers: (req, res, cb) => {
+    return User.findAll({ raw: true }).then(users => {
+      cb({ users: users })
+    })
   }
 }
 
