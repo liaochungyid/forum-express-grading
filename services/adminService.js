@@ -69,6 +69,21 @@ const adminService = {
       cb({ restaurant: restaurant })
     })
   },
+  editRestaurant: (req, res, cb) => {
+    Category.findAll({
+      raw: true,
+      nest: true
+    }).then((categories) => {
+      return Restaurant
+        .findByPk(req.params.id)
+        .then(restaurant => {
+          cb({
+            categories,
+            restaurant: restaurant.toJSON()
+          })
+        })
+    })
+  },
   putRestaurant: (req, res, cb) => {
     if (!req.body.name) {
       return cb({ stauts: 'error', message: "name didn't exit" })

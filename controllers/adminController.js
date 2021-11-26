@@ -17,7 +17,7 @@ const adminController = {
     })
   },
   createRestaurant: (req, res) => {
-    adminService.createRestaurant(req,res,(data)=>{
+    adminService.createRestaurant(req, res, (data) => {
       return res.render('admin/create', data)
     })
   },
@@ -36,22 +36,10 @@ const adminController = {
       return res.render('admin/restaurant', data)
     })
   },
-
   editRestaurant: (req, res) => {
-    Category.findAll({
-      raw: true,
-      nest: true
-    }).then((categories) => {
-      return Restaurant
-        .findByPk(req.params.id)
-        .then(restaurant => {
-          return res.render('admin/create', {
-            categories,
-            restaurant: restaurant.toJSON()
-          })
-        })
+    adminService.editRestaurant(req, res, (data) => {
+      return res.render('admin/create', data)
     })
-
   },
   putRestaurant: (req, res) => {
     adminService.putRestaurant(req, res, (data) => {
