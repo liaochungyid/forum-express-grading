@@ -8,9 +8,9 @@ const passport = require('../config/passport')
 
 const adminController = require('../controllers/api/adminController.js')
 const categoryController = require('../controllers/api/categoryController.js')
-const userController = require('../controllers/api/userController.js')
 const commentController = require('../controllers/api/commentController.js')
-const restController = require('../restController/api/commentController.js')
+const restController = require('../controllers/api/restController.js')
+const userController = require('../controllers/api/userController.js')
 
 const authenticated = passport.authenticate('jwt', { session: false })
 
@@ -48,6 +48,19 @@ router.post('/admin/categories', authenticated, authenticatedAdmin, categoryCont
 router.put('/admin/categories/:id', authenticated, authenticatedAdmin, categoryController.putCategory)
 router.delete('/admin/categories/:id', authenticated, authenticatedAdmin, categoryController.deleteCategory)
 
+router.get('/users/top', authenticated, userController.getTopUser)
+router.get('/users/:id', authenticated, userController.getUser)
+router.get('/users/:id/edit', authenticated, userController.editUser)
+router.put('/users/:id', authenticated, upload.single('image'), userController.putUser)
+
+router.post('/favorite/:restaurantId', authenticated, userController.addFavorite)
+router.delete('/favorite/:restaurantId', authenticated, userController.removeFavorite)
+
+router.post('/like/:restaurantId', authenticated, userController.addLike)
+router.delete('/like/:restaurantId', authenticated, userController.removeLike)
+
+router.post('/following/:userId', authenticated, userController.addFollowing)
+router.delete('/following/:userId', authenticated, userController.removeFollowing)
 router.post('/signin', userController.signIn)
 router.post('/signup', userController.signUp)
 
