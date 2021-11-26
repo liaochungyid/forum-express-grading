@@ -139,6 +139,24 @@ const adminService = {
     return User.findAll({ raw: true }).then(users => {
       cb({ users: users })
     })
+  },
+  toggleAdmin: (req, res, cb) => {
+    if (helpers.getUser(req).id === Number(req.params.id)) {
+      return cb({ stauts: 'error', message: '無法變更自己的權限' })
+    }
+
+    return User.findByPk(req.params.id)
+      .then((user) => {
+        if (user.name === 'admin') {
+          cb({ stauts: 'error', message: '禁止變更管理者權限' })
+        } else {
+          user.update({
+            isAdmin: !user.isAdmin
+          }).then((user) => {
+            cb({ stauts: 'success', message: '使用者權限變更成功' })
+          })
+        }
+      })
   }
 }
 
